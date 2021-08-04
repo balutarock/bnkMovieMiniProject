@@ -1,0 +1,148 @@
+.popular-bg-container {
+  background-color: #131313;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+  padding-top: 20px;
+}
+
+.p-poster {
+  height: 100px;
+  width: 90px;
+  left: 32px;
+  top: 125px;
+  border-radius: 4px;
+}
+
+.p-ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  padding-left: 32px;
+  padding-right: 32px;
+  list-style: none;
+  margin-top: 80px;
+}
+
+.p-li {
+  margin-right: 20px;
+  margin-bottom: 20px;
+}
+
+.page-function {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.left-button {
+  background-color: transparent;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #ffffff;
+  height: 24px;
+  width: 24px;
+  left: 0px;
+  top: 0px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.right-button {
+  background-color: transparent;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #ffffff;
+  height: 24px;
+  width: 24px;
+  left: 0px;
+  top: 0px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.page-para {
+  font-family: Bree Serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: 0em;
+  text-align: center;
+  height: 22px;
+  border-radius: nullpx;
+  color: #ffffff;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.left-icons {
+  color: #ffffff;
+  font-size: 15px;
+}
+
+.loader-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #131313;
+  flex-grow: 1;
+}
+
+@media (min-width: 768px) {
+  .p-poster {
+    height: 170px;
+    width: 255px;
+    left: 166px;
+    top: 135px;
+    border-radius: 8px;
+  }
+  .p-ul {
+    padding-left: 165px;
+    padding-right: 165px;
+    margin-top: 30px;
+  }
+  .left-button {
+    height: 32px;
+    width: 32px;
+    left: 0px;
+    top: 0px;
+  }
+  .right-button {
+    height: 32px;
+    width: 32px;
+    left: 0px;
+    top: 0px;
+  }
+  .left-icons {
+    font-size: 25px;
+  }
+  .p-li {
+    margin-left: 20px;
+    margin-bottom: 20px;
+  }
+  .spin {
+    height: 80px;
+    width: 80px;
+    left: 680px;
+    top: 472px;
+    border-radius: 0px;
+  }
+  .popular-bg-container {
+    padding-top: 100px;
+  }
+}

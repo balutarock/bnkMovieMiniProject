@@ -1,0 +1,167 @@
+.log-in-bg-container {
+  background-color: #131313;
+  min-height: 100vh;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+}
+
+.movie-logo-css {
+  height: 27px;
+  width: 100px;
+  top: 32px;
+  left: 32px;
+  border-radius: 0px;
+}
+
+.logo-heading-container {
+  padding: 32px;
+}
+
+.sing-in-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 32px;
+}
+
+.label-input-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.sign-in-heading {
+  height: 40px;
+  left: 32px;
+  top: 134px;
+  width: 98px;
+  color: #ffffff;
+  font-family: Roboto;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 40px;
+  letter-spacing: 0em;
+  text-align: center;
+}
+
+.label {
+  width: 65px;
+  height: 16px;
+  left: 0px;
+  top: 0px;
+
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 16px;
+  /* identical to box height, or 133% */
+
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+.input-ele {
+  height: 40px;
+  left: 0%;
+  right: 0%;
+  top: 24px;
+  background-color: #333333;
+  border-radius: 2px;
+  outline: none;
+  border-width: 0px;
+  width: 100%;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 24px;
+  color: rgba(233, 238, 245, 0.6);
+  padding-left: 10px;
+}
+
+.button-container {
+  width: 100%;
+}
+
+.sign-in-button {
+  padding: 8px 20px;
+  left: 8.89%;
+  right: 8.89%;
+  top: 57.19%;
+  bottom: 36.56%;
+  background-color: #e50914;
+  border-radius: 4px;
+  width: 100%;
+  outline: none;
+  border-width: 0px;
+  font-family: Roboto;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: center;
+  color: #ffffff;
+  margin-top: 20px;
+}
+
+.error-msg {
+  font-family: Roboto;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  text-align: left;
+  color: #fb923c;
+  margin-top: -10px;
+}
+
+@media (min-width: 768px) {
+  .log-in-bg-container {
+    background-image: url('https://res.cloudinary.com/dxnhvq8pl/image/upload/v1627540761/movie%20app%20mini%20project/netfilx_1_a0kkqs.jpg');
+  }
+  .movie-logo-css {
+    height: 52.0005989074707px;
+    width: 180px;
+    left: 165px;
+    top: 48px;
+    border-radius: 0px;
+  }
+  .logo-heading-container {
+    padding: 48px;
+    padding-left: 165px;
+  }
+  .sing-in-container {
+    background-color: #0c0b10;
+    position: absolute;
+    width: 456px;
+    height: 440px;
+    background-color: #0c0b10;
+    opacity: 0.8;
+    border-radius: 8px;
+  }
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+  }
+  .sign-in-heading {
+    text-align: center;
+    width: 100%;
+  }
+  .button-container {
+    width: 100px;
+    align-self: center;
+  }
+}

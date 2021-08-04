@@ -1,0 +1,306 @@
+.account-bg-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.a-log-home-popular-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.nav-home {
+  font-family: HK Grotesk;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 26px;
+  letter-spacing: -0.35555556416511536px;
+  text-align: left;
+}
+
+.nav-bg-ac-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-left: 32px;
+  padding-right: 32px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background-color: black;
+  width: 100%;
+}
+
+.a-wrong-icon {
+  color: black;
+  height: 24px;
+  width: 24px;
+  left: 304px;
+  top: 84px;
+  border-radius: 0px;
+}
+
+.a-home {
+  color: black;
+  margin-right: 10px;
+}
+
+.hi-m {
+  color: #ffffff;
+  height: 24px;
+  width: 24px;
+  left: 304px;
+  top: 26px;
+  border-radius: 0px;
+}
+
+.a-card-container {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 32px;
+  padding-right: 32px;
+  background-color: #ffffff;
+  flex-grow: 1;
+  min-height: 89vh;
+  background-size: cover;
+  width: 100%;
+}
+
+.a-c {
+  width: 100%;
+}
+
+.a-heading {
+  height: 28px;
+  width: 90px;
+  left: 32px;
+  top: 107px;
+  border-radius: nullpx;
+  font-family: Roboto;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 28px;
+  letter-spacing: 0px;
+  text-align: left;
+}
+
+.membership-c {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.m-heading {
+  height: 23px;
+  width: 106px;
+  left: 32px;
+  top: 169px;
+  border-radius: nullpx;
+  font-family: HK Grotesk;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 23px;
+  letter-spacing: 0px;
+  text-align: left;
+  color: #94a3b8;
+  margin-right: 10px;
+}
+
+.email {
+  height: 21px;
+  width: 172px;
+  left: 149px;
+  top: 169px;
+  border-radius: nullpx;
+  font-family: HK Grotesk;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 21px;
+  letter-spacing: 0px;
+  text-align: left;
+  color: #1e293b;
+}
+
+.password {
+  height: 21px;
+  width: 172px;
+  left: 149px;
+  top: 169px;
+  border-radius: nullpx;
+  font-family: HK Grotesk;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 21px;
+  letter-spacing: 0px;
+  text-align: left;
+  color: #64748b;
+}
+
+.p-c {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.premium {
+  font-family: HK Grotesk;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 21px;
+  letter-spacing: 0px;
+  text-align: left;
+  color: #1e293b;
+}
+
+.premium-c {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.c {
+  font-family: HK Grotesk;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 18px;
+  letter-spacing: 0px;
+  text-align: left;
+  border-color: #1e293b;
+  border-width: 2px;
+  border-style: solid;
+  margin-left: 10px;
+}
+
+.logout-button {
+  height: 40px;
+  width: 91px;
+  left: 135px;
+  top: 360px;
+  border-radius: 4px;
+  padding: 8px, 20px, 8px, 20px;
+  background-color: #e50914;
+  border-radius: 4px;
+  color: #ffffff;
+  font-family: Roboto;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: center;
+  outline: none;
+  border-width: 0px;
+  border-radius: nullpx;
+  align-self: center;
+}
+
+.b-c {
+  text-align: center;
+  margin-top: 56px;
+}
+
+@media (min-width: 768px) {
+  .a-card-container {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    padding-right: 165px;
+    padding-left: 165px;
+  }
+  .a-heading {
+    font-family: Roboto;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 42px;
+    letter-spacing: 0px;
+    text-align: left;
+  }
+  .m-heading {
+    font-family: HK Grotesk;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 31px;
+    letter-spacing: 0px;
+    text-align: left;
+    height: 31px;
+    width: 259px;
+    left: 332px;
+    top: 267px;
+    border-radius: nullpx;
+  }
+  .email {
+    font-family: HK Grotesk;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 31px;
+    letter-spacing: 0px;
+    text-align: left;
+    height: 31px;
+    width: 259px;
+    left: 332px;
+    top: 267px;
+    border-radius: nullpx;
+  }
+  .password {
+    height: 31px;
+    width: 279px;
+    left: 332px;
+    top: 311px;
+    border-radius: nullpx;
+    font-family: HK Grotesk;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 31px;
+    letter-spacing: 0px;
+    text-align: left;
+  }
+  .premium {
+    height: 31px;
+    width: 96px;
+    left: 332px;
+    top: 397px;
+    border-radius: nullpx;
+    font-family: HK Grotesk;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 31px;
+    letter-spacing: 0px;
+    text-align: left;
+    margin-right: 20px;
+  }
+  .logout-button {
+    height: 40px;
+    width: 91px;
+    left: 675px;
+    top: 523px;
+    border-radius: 4px;
+    padding: 8px, 20px, 8px, 20px;
+  }
+  .hi-m {
+    display: none;
+  }
+  .nav-bg-ac-container {
+    padding-left: 165px;
+    padding-right: 165px;
+  }
+}

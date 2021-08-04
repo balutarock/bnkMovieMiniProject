@@ -1,0 +1,118 @@
+.App {
+  min-height: 100vh;
+  background: skyblue;
+}
+
+.each-image {
+  height: 64px;
+  width: 90px;
+  left: 32px;
+  top: 448px;
+  border-radius: 8px;
+}
+
+.button {
+  background-color: transparent;
+  border-width: 0px;
+  outline: none;
+}
+
+.image-container {
+  margin-right: 10px;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.react-slick-item {
+  background: transparent;
+}
+
+.slick-app-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.poster {
+  margin: 0px 10px;
+  height: 100px;
+}
+
+@media (min-width: 769px) {
+  .poster {
+    margin: 0px 15px;
+    height: 200px;
+  }
+}
+
+@media (max-width: 425px) {
+  .each-image {
+    width: 75px;
+    height: 50px;
+    background-size: cover;
+    background-position: center;
+  }
+}
+
+@media (min-width: 426px) and (max-width: 768px) {
+  .poster {
+    margin: 0px 30px;
+    height: 250px;
+  }
+  .each-image {
+    height: 80px;
+    width: 100px;
+    border-radius: 8px;
+    background-size: cover;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .each-image {
+    width: 150px;
+    height: 130px;
+    background-position: center;
+    background-size: cover;
+  }
+}
+
+@media (min-width: 1025px) {
+  .each-image {
+    width: 254px;
+    height: 200px;
+  }
+}
