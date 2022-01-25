@@ -1,4 +1,3 @@
-import {Component} from 'react'
 import {withRouter} from 'react-router'
 import {Link} from 'react-router-dom'
 import Slider from 'react-slick'
@@ -38,42 +37,24 @@ const settings = {
   ],
 }
 
-class ReactSlider extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {netflixOriginals: []}
-  }
-
-  componentDidMount() {
-    this.fetchNetflixOriginalsData()
-  }
-
-  fetchNetflixOriginalsData = () => {
-    const {url} = this.props
-    fetch(url)
-      .then(response => response.json())
-      .then(response => {
-        this.setState({netflixOriginals: response.results})
-      })
-  }
-
-  renderSlider = () => {
-    const {netflixOriginals} = this.state
+const ReactSlider = props => {
+  const renderSlider = () => {
+    const {dataList} = props
 
     return (
-      <Slider {...settings}>
-        {netflixOriginals.map(movie => {
-          const movieImage = `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-
+      <Slider>
+        {dataList.map(movie => {
+          const movieImage = `https://image.tmdb.org/t/p/original/${movie.posterPath}`
           return (
-            <Link to={`/SpecificMovieDetails/${movie.id}`} key={movie.id}>
-              <div className="image-container">
+            <Link to={`/SpecificMovieDetails/${movie.id}`}>
+              <div className="image-container" key={movie.id}>
                 <img
                   className="each-image"
-                  alt="img"
+                  alt={movie.id}
                   src={movieImage}
                   width="100%"
                   height="100%"
+                  key={movie.id}
                 />
               </div>
             </Link>
@@ -83,23 +64,20 @@ class ReactSlider extends Component {
     )
   }
 
-  render() {
-    const {netflixOriginals} = this.state
+  const {dataList} = props
+  return (
+    <div className="slick-app-container">
+      <div style={{width: '100%'}}>
+        {dataList.length ? (
+          renderSlider()
+        ) : (
+          <p style={{textAlign: 'center'}}>Loading...................</p>
+        )}
 
-    return (
-      <div className="slick-app-container">
-        <div style={{width: '100%'}}>
-          {netflixOriginals.length ? (
-            this.renderSlider()
-          ) : (
-            <p style={{textAlign: 'center'}}>Loading...................</p>
-          )}
-
-          <Slider {...settings}> </Slider>
-        </div>
+        <Slider {...settings}> </Slider>
       </div>
-    )
-  }
+    </div>
+  )
 }
 
 export default withRouter(ReactSlider)

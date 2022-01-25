@@ -32,28 +32,30 @@ class Popular extends Component {
       `https://api.themoviedb.org/3/movie/popular?api_key=639ba2e19fa297642eec1cefb28ef177&language=en-US&page=${pageNo}`,
     )
     const fetchedData = await response.json()
-    const totalPages = fetchedData.total_results
-    const data = fetchedData.results
-    const updatedData = data.map(each => ({
-      id: each.id,
-      title: each.original_title,
-      adult: each.adult,
-      releaseDate: each.release_date,
-      runtime: '145',
-      overview: each.overview,
-      genres: each.genre_ids,
-      audio: each.original_language,
-      ratingCount: each.vote_count,
-      rating: each.vote_average,
-      budget: '50000',
-      popularity: each.popularity,
-      backdropPath: each.backdrop_path,
-      posterPath: each.poster_path,
-    }))
-    this.setState({
-      popularList: {totalPages, results: [...updatedData]},
-      apiStatus: apiStatusList.popular,
-    })
+    if (response.ok === true) {
+      const totalPages = fetchedData.total_results
+      const data = fetchedData.results
+      const updatedData = data.map(each => ({
+        id: each.id,
+        title: each.original_title,
+        adult: each.adult,
+        releaseDate: each.release_date,
+        runtime: '145',
+        overview: each.overview,
+        genres: each.genre_ids,
+        audio: each.original_language,
+        ratingCount: each.vote_count,
+        rating: each.vote_average,
+        budget: '50000',
+        popularity: each.popularity,
+        backdropPath: each.backdrop_path,
+        posterPath: each.poster_path,
+      }))
+      this.setState({
+        popularList: {totalPages, results: [...updatedData]},
+        apiStatus: apiStatusList.popular,
+      })
+    }
   }
 
   onClickLeftArrow = () => {

@@ -16,7 +16,7 @@ class SearchedResults extends Component {
   state = {
     apiStatus: apiStatusList.initial,
     searchedList: {totalPages: 1, results: []},
-    pageNo: 1,
+    pageNum: 1,
     showInput: true,
   }
 
@@ -158,7 +158,7 @@ class SearchedResults extends Component {
     const {totalPages} = searchedList
     if (pageNo < totalPages) {
       this.setState(
-        prevState => ({pageNo: prevState.pageNo + 1}),
+        prevState => ({pageNum: prevState.pageNum + 1}),
         this.getTheSearchedListAndUpdateState,
       )
     }
@@ -168,7 +168,7 @@ class SearchedResults extends Component {
     const {pageNo} = this.state
     if (pageNo > 1) {
       this.setState(
-        prevState => ({pageNo: prevState.pageNo - 1}),
+        prevState => ({pageNum: prevState.pageNum - 1}),
         this.getTheSearchedListAndUpdateState,
       )
     }

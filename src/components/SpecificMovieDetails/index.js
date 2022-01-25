@@ -31,13 +31,15 @@ class SpecificMovieDetails extends Component {
     const response = await fetch(
       `https://api.themoviedb.org/3/movie/${id}/similar?api_key=639ba2e19fa297642eec1cefb28ef177&language=en-US&page=1`,
     )
-    const data = await response.json()
-    const fetchedData = data.results.map(each => ({
-      id: each.id,
-      posterPath: each.poster_path,
-      title: each.title,
-    }))
-    this.setState({similarMoviesList: fetchedData})
+    if (response.ok === true) {
+      const data = await response.json()
+      const fetchedData = data.results.map(each => ({
+        id: each.id,
+        posterPath: each.poster_path,
+        title: each.title,
+      }))
+      this.setState({similarMoviesList: fetchedData})
+    }
   }
 
   getTheId = () => {
@@ -53,50 +55,56 @@ class SpecificMovieDetails extends Component {
     const response = await fetch(
       `https://api.themoviedb.org/3/movie/${id}?api_key=639ba2e19fa297642eec1cefb28ef177&language=en-US`,
     )
-    const data = await response.json()
-    console.log(data)
-    const updatedData = {
-      id: data.id,
-      title: data.original_title,
-      adult: data.adult,
-      releaseDate: data.release_date,
-      runtime: data.runtime,
-      overview: data.overview,
-      genres: data.genres,
-      audio: data.spoken_languages,
-      ratingCount: data.vote_count,
-      rating: data.vote_average,
-      budget: data.budget,
-      popularity: data.popularity,
-      backdropPath: data.backdrop_path,
+    if (response.ok === true) {
+      const data = await response.json()
+      console.log(data)
+      const updatedData = {
+        id: data.id,
+        title: data.original_title,
+        adult: data.adult,
+        releaseDate: data.release_date,
+        runtime: data.runtime,
+        overview: data.overview,
+        genres: data.genres,
+        audio: data.spoken_languages,
+        ratingCount: data.vote_count,
+        rating: data.vote_average,
+        budget: data.budget,
+        popularity: data.popularity,
+        backdropPath: data.backdrop_path,
+      }
+      const genresData =
+        updatedData.genres &&
+        updatedData.genres.map(each => ({
+          id: each.id,
+          name: each.name,
+        }))
+      const audioData =
+        updatedData.audio &&
+        updatedData.audio.map(each => ({
+          id: each.iso_639_1,
+          name: each.name,
+        }))
+      const finalUpdateData = {
+        id: data.id,
+        title: data.original_title,
+        adult: data.adult,
+        releaseDate: data.release_date,
+        runtime: data.runtime,
+        overview: data.overview,
+        genres: genresData,
+        audio: audioData,
+        ratingCount: data.vote_count,
+        rating: data.vote_average,
+        budget: data.budget,
+        popularity: data.popularity,
+        backdropPath: data.backdrop_path,
+      }
+      this.setState({
+        movieData: {...finalUpdateData},
+        apiStatus: apiStatusList.specificMovie,
+      })
     }
-    const genresData = updatedData.genres.map(each => ({
-      id: each.id,
-      name: each.name,
-    }))
-    const audioData = updatedData.audio.map(each => ({
-      id: each.iso_639_1,
-      name: each.name,
-    }))
-    const finalUpdateData = {
-      id: data.id,
-      title: data.original_title,
-      adult: data.adult,
-      releaseDate: data.release_date,
-      runtime: data.runtime,
-      overview: data.overview,
-      genres: genresData,
-      audio: audioData,
-      ratingCount: data.vote_count,
-      rating: data.vote_average,
-      budget: data.budget,
-      popularity: data.popularity,
-      backdropPath: data.backdrop_path,
-    }
-    this.setState({
-      movieData: {...finalUpdateData},
-      apiStatus: apiStatusList.specificMovie,
-    })
   }
 
   renderTheLoader = () => {
