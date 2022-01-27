@@ -8,6 +8,8 @@
   align-items: center;
   background-size: cover;
   min-height: 20vh;
+  background-color: #131313;
+  width: 100%;
 }
 
 .social-media-container {

@@ -1,46 +1,13 @@
 import {Component} from 'react'
 import {Link} from 'react-router-dom'
 import {withRouter} from 'react-router'
-import {BsSearch} from 'react-icons/bs'
-import {HiMenu} from 'react-icons/hi'
+import {HiOutlineSearch, HiMenu} from 'react-icons/hi'
 import {IoIosCloseCircle} from 'react-icons/io'
-import './index.css'
 import NavContext from '../../Context/NavContext'
 
-class Navbar extends Component {
-  onClickMenuIcon = () => {
-    const {updateIsShow} = this.props
-    updateIsShow()
-  }
-
-  onClickWrongIcon = () => {
-    const {updateIsShow} = this.props
-    updateIsShow()
-  }
-
-  onClickSearch = () => {
-    const {isShowInput} = this.props
-    isShowInput()
-  }
-
-  onClickInputWrongIcon = () => {
-    const {isShowInput} = this.props
-    isShowInput()
-  }
-
-  onChangeInput = event => {
-    const {changeTheSearchInput, history} = this.props
-    history.push(`/search?q=${event.target.value}`)
-    changeTheSearchInput(event.target.value)
-  }
-
-  onKeyDownInput = event => {
-    const {onClickedEnterButton} = this.props
-    onClickedEnterButton(event.key)
-  }
-
+class Header extends Component {
   render() {
-    const {match, isShowMenu} = this.props
+    const {match} = this.props
     const {path} = match
     const activeHome = path === '/' ? 'active' : 'non-active'
     const activePopular = path === '/popular' ? 'active' : 'non-active'
@@ -49,9 +16,12 @@ class Navbar extends Component {
     return (
       <NavContext.Consumer>
         {value => {
-          const {onChangeSearch, search} = value
-          const onChangeInput = event => {
-            onChangeSearch(event.target.value)
+          const {isShowMenu, onChangeMenu} = value
+          const onClickMenuIcon = () => {
+            onChangeMenu()
+          }
+          const onClickWrongIcon = () => {
+            onChangeMenu()
           }
           return (
             <div className="nav-bg-main-c">
@@ -60,7 +30,7 @@ class Navbar extends Component {
                   <Link to="/">
                     <img
                       src="https://res.cloudinary.com/dxnhvq8pl/image/upload/v1628099153/movie%20app%20mini%20project/580b57fcd9996e24bc43c529_d5ju8c.png"
-                      alt="movie-logo"
+                      alt="website logo"
                       className="navbar-movie-logo-css"
                     />
                   </Link>
@@ -71,31 +41,31 @@ class Navbar extends Component {
                     <p className={`nav-home ${activePopular}`}>Popular</p>
                   </Link>
                 </div>
+                <ul>
+                  <li> </li>
+                </ul>
                 <div className="search-menu-c">
-                  <div className="input-wrong-co">
-                    <div className="search-container">
-                      <input
-                        type="search"
-                        className="input-s"
-                        onChange={onChangeInput}
-                        value={search}
-                        placeholder="Title"
-                      />
-                      <BsSearch className="search-icon" />
-                    </div>
-                  </div>
+                  <Link to="/search">
+                    <button
+                      type="button"
+                      className="button"
+                      testid="searchButton"
+                    >
+                      <HiOutlineSearch className="search-icon" />
+                    </button>
+                  </Link>
                   <div className="search-account-container">
                     <button
                       type="button"
                       className="button"
-                      onClick={this.onClickMenuIcon}
+                      onClick={onClickMenuIcon}
                     >
                       <HiMenu className="hi-menu" />
                     </button>
                     <Link to="/account">
                       <img
                         src="https://res.cloudinary.com/dxnhvq8pl/image/upload/v1627560313/movie%20app%20mini%20project/Avatar_j86jd5.jpg"
-                        alt="avatar"
+                        alt="profile"
                         className="avatar"
                       />
                     </Link>
@@ -118,7 +88,7 @@ class Navbar extends Component {
                   <button
                     type="button"
                     className="button"
-                    onClick={this.onClickWrongIcon}
+                    onClick={onClickWrongIcon}
                   >
                     <IoIosCloseCircle className="w-icon" />
                   </button>
@@ -132,4 +102,4 @@ class Navbar extends Component {
   }
 }
 
-export default withRouter(Navbar)
+export default withRouter(Header)

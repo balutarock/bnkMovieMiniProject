@@ -1,45 +1,31 @@
 import {Component} from 'react'
 import Loader from 'react-loader-spinner'
-import Navbar from '../Navbar'
+import Cookies from 'js-cookie'
+import Header from '../Header'
+import {
+  FailureContainer,
+  FailureImage,
+  TryAgainButton,
+  FailurePara,
+} from './styledComponent'
 import './index.css'
+import Footer from '../Footer'
 
 const apiStatusList = {
   initial: 'INITIAL',
-  inProgress: 'INPROGRESS',
-  specificMovie: 'SPECIFICMOVIE',
+  in_progress: 'IN_PROGRESS',
+  success: 'SUCCESS',
+  failure: 'FAILURE',
 }
 
 class SpecificMovieDetails extends Component {
   state = {
     movieData: {},
     similarMoviesList: [],
-    search: '',
-    showInput: false,
-    isShowMenu: false,
   }
 
   componentDidMount() {
     this.getTheData()
-    this.getMoreLike()
-  }
-
-  getMoreLike = async () => {
-    const {match} = this.props
-    console.log(match)
-    const {params} = match
-    const {id} = params
-    const response = await fetch(
-      `https://api.themoviedb.org/3/movie/${id}/similar?api_key=639ba2e19fa297642eec1cefb28ef177&language=en-US&page=1`,
-    )
-    if (response.ok === true) {
-      const data = await response.json()
-      const fetchedData = data.results.map(each => ({
-        id: each.id,
-        posterPath: each.poster_path,
-        title: each.title,
-      }))
-      this.setState({similarMoviesList: fetchedData})
-    }
   }
 
   getTheId = () => {
@@ -50,14 +36,21 @@ class SpecificMovieDetails extends Component {
   }
 
   getTheData = async () => {
-    this.setState({apiStatus: apiStatusList.inProgress})
+    this.setState({apiStatus: apiStatusList.in_progress})
+    const jwtToken = Cookies.get('jwt_token')
     const id = this.getTheId()
-    const response = await fetch(
-      `https://api.themoviedb.org/3/movie/${id}?api_key=639ba2e19fa297642eec1cefb28ef177&language=en-US`,
-    )
-    if (response.ok === true) {
-      const data = await response.json()
-      console.log(data)
+    const moviesUrl = `https://api.themoviedb.org/3/movie/${id}?api_key=639ba2e19fa297642eec1cefb28ef177&language=en-US`
+    const options = {
+      method: 'GET',
+      Authorization: `Bearer ${jwtToken}`,
+    }
+    const moreLikeUrl = `https://api.themoviedb.org/3/movie/${id}/similar?api_key=639ba2e19fa297642eec1cefb28ef177&language=en-US&page=1`
+
+    const responseOfMovies = await fetch(moviesUrl, options)
+    const responseOfMoreLike = await fetch(moreLikeUrl, options)
+    if (responseOfMovies.ok === true && responseOfMoreLike.ok === true) {
+      const data = await responseOfMovies.json()
+      const dataOfMoreLike = await responseOfMoreLike.json()
       const updatedData = {
         id: data.id,
         title: data.original_title,
@@ -72,6 +65,7 @@ class SpecificMovieDetails extends Component {
         budget: data.budget,
         popularity: data.popularity,
         backdropPath: data.backdrop_path,
+        posterPath: data.poster_path,
       }
       const genresData =
         updatedData.genres &&
@@ -99,40 +93,36 @@ class SpecificMovieDetails extends Component {
         budget: data.budget,
         popularity: data.popularity,
         backdropPath: data.backdrop_path,
+        posterPath: data.poster_path,
       }
+      const fetchedData = dataOfMoreLike.results.map(each => ({
+        id: each.id,
+        posterPath: each.poster_path,
+        title: each.title,
+      }))
       this.setState({
         movieData: {...finalUpdateData},
-        apiStatus: apiStatusList.specificMovie,
+        similarMoviesList: [...fetchedData],
+        apiStatus: apiStatusList.success,
       })
+    } else {
+      this.setState({apiStatus: apiStatusList.failure})
     }
   }
 
-  renderTheLoader = () => {
-    const {isShowMenu, showInput, search} = this.state
-    return (
-      <div className="h-loader-container">
-        <Navbar
-          updateIsShow={this.updateIsShow}
-          isShowMenu={isShowMenu}
-          isShowInput={this.isShowInput}
-          showInput={showInput}
-          search={search}
-          changeTheSearchInput={this.changeTheSearchInput}
-          onClickedEnterButton={this.onClickedEnterButton}
+  renderTheLoader = () => (
+    <div className="h-loader-container">
+      <div className="l" testid="loader">
+        <Loader
+          type="TailSpin"
+          color=" #D81F26"
+          height={70}
+          width={70}
+          className="spin"
         />
-
-        <div className="l">
-          <Loader
-            type="TailSpin"
-            color=" #D81F26"
-            height={70}
-            width={70}
-            className="spin"
-          />
-        </div>
       </div>
-    )
-  }
+    </div>
+  )
 
   renderTheMovieDetails = () => {
     const {movieData} = this.state
@@ -140,7 +130,7 @@ class SpecificMovieDetails extends Component {
     return (
       <div className="s-m-second-container">
         <div className="s-m-genres">
-          <h1 className="genres">Genres</h1>
+          <h1 className="genres">genres</h1>
           <ul className="ul">
             {genres &&
               genres.map(each => (
@@ -187,7 +177,7 @@ class SpecificMovieDetails extends Component {
             <li key={each.id}>
               <img
                 src={`https://image.tmdb.org/t/p/original/${each.posterPath}`}
-                alt={each.id}
+                alt={each.title}
                 className="li-img"
               />
             </li>
@@ -199,6 +189,8 @@ class SpecificMovieDetails extends Component {
 
   renderTheSpecificMovieDetailsPage = () => {
     const {movieData} = this.state
+    const hours = Math.floor(movieData.runtime / 60)
+    const min = movieData.runtime % 60
     return (
       <>
         <div
@@ -210,29 +202,15 @@ class SpecificMovieDetails extends Component {
           <div className="s-m-details">
             <h1 className="s-m-heading">{movieData.title}</h1>
             <div className="time-container">
-              <p className="li p">{movieData.runtime} min</p>
-              <svg
-                className="sp p"
-                width="46"
-                height="25"
-                viewBox="0 0 46 25"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M17.488 18.208C20.24 18.208 21.68 16.752 21.68 13.888V6.848H19.968V13.76C19.968 15.744 19.232 16.544 17.488 16.544C15.744 16.544 15.024 15.76 15.024 13.776V6.848H13.312V13.968C13.312 16.784 14.752 18.208 17.488 18.208ZM32.8033 18L28.4513 6.848H27.1233L22.7713 18H24.6273L25.5553 15.472H30.0193L30.9313 18H32.8033ZM27.7953 9.344L29.4593 13.92H26.1153L27.7953 9.344Z"
-                  fill="white"
-                />
-                <rect
-                  x="0.5"
-                  y="0.5"
-                  width="45"
-                  height="24"
-                  rx="1.5"
-                  stroke="white"
-                />
-              </svg>
-              <p className="li p">{movieData.popularity}</p>
+              <p className="li p">
+                {hours}h {min}m
+              </p>
+              {movieData.adult === true ? (
+                <h1 className="content-type">A</h1>
+              ) : (
+                <h1 className="outline-content">U/A</h1>
+              )}
+              <p className="li p">{movieData.releaseDate.split('-')[0]}</p>
             </div>
             <p className="s-m-para">{movieData.overview}</p>
             <button type="button" className="s-m-play-button">
@@ -249,45 +227,43 @@ class SpecificMovieDetails extends Component {
     )
   }
 
-  updateIsShow = () => {
-    this.setState(prevState => ({isShowMenu: !prevState.isShowMenu}))
+  onClickMoviesTryAgainButton = () => {
+    this.setState({}, this.getTheData)
   }
 
-  updateSearch = value => {
-    this.setState({search: value})
-  }
-
-  isShowInput = () => {
-    this.setState(prevState => ({showInput: !prevState.showInput}))
-  }
-
-  changeTheSearchInput = () => {}
+  renderTheFailure = () => (
+    <FailureContainer>
+      <FailureImage
+        src="https://res.cloudinary.com/dxnhvq8pl/image/upload/v1643298392/movie%20app%20mini%20project/Background-Complete_rlcxnf.png"
+        alt="failure view"
+      />
+      <FailurePara>Something went wrong. Please try again</FailurePara>
+      <TryAgainButton onClick={this.onClickMoviesTryAgainButton}>
+        Try Again
+      </TryAgainButton>
+    </FailureContainer>
+  )
 
   renderTheFunction = () => {
     const {apiStatus} = this.state
     switch (apiStatus) {
-      case apiStatusList.inProgress:
+      case apiStatusList.in_progress:
         return this.renderTheLoader()
-      case apiStatusList.specificMovie:
+      case apiStatusList.success:
         return this.renderTheSpecificMovieDetailsPage()
+      case apiStatusList.failure:
+        return this.renderTheFailure()
       default:
         return null
     }
   }
 
   render() {
-    const {isShowMenu, search, showInput} = this.state
     return (
       <div className="specific-movie-bg-container">
-        <Navbar
-          updateIsShow={this.updateIsShow}
-          isShowMenu={isShowMenu}
-          isShowInput={this.isShowInput}
-          showInput={showInput}
-          search={search}
-          changeTheSearchInput={this.changeTheSearchInput}
-        />
+        <Header />
         {this.renderTheFunction()}
+        <Footer />
       </div>
     )
   }

@@ -1,5 +1,5 @@
 .home-bg-container {
-  background-color: #131313;
+  background-color: #181818;
   min-height: 100vh;
 }
 
@@ -126,6 +126,12 @@
 
 .se {
   color: #ffffff;
+}
+
+.alert-icon {
+  width: 50px;
+  height: 50px;
+  color: #e50014;
 }
 
 @media (min-width: 768px) {

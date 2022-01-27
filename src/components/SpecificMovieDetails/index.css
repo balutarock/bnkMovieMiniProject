@@ -198,6 +198,31 @@
   margin-bottom: 15px;
 }
 
+.content-type {
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 400;
+  color: #ffffff;
+  margin-right: 10px;
+}
+
+.outline-content {
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 400;
+  color: #ffffff;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #ffffff;
+  border-radius: 4px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-right: 10px;
+  margin-top: 20px;
+}
+
 @media (min-width: 768px) {
   .s-m-first-section {
     height: 85vh;

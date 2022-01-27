@@ -2,28 +2,27 @@ import {Component} from 'react'
 import Slider from 'react-slick'
 import Loader from 'react-loader-spinner'
 import Cookies from 'js-cookie'
-import Navbar from '../Navbar'
-import ReactSlider from '../ReactSlick'
+import Header from '../Header'
 import Footer from '../Footer'
 import './index.css'
 import '../styles.css'
 import SliderListItem from '../SliderListItem'
 
-import {HomeFirstContainer, SliderLoaderContainer} from './styledComponent'
+import {
+  HomeFirstContainer,
+  SliderLoaderContainer,
+  HomeSecondContainer,
+  HomeSliderFailureContainer,
+  AlertError,
+  RetryButton,
+  FailureContainer,
+  AlertImage,
+} from './styledComponent'
 
-const url = {
-  trendingUrl:
-    'https://api.themoviedb.org/3/trending/all/week?api_key=639ba2e19fa297642eec1cefb28ef177',
-  topRatedUrl:
-    'https://api.themoviedb.org/3/movie/top_rated?api_key=639ba2e19fa297642eec1cefb28ef177&language=en-US',
-  originalUrl:
-    'https://api.themoviedb.org/3/discover/tv?api_key=639ba2e19fa297642eec1cefb28ef177',
-}
-
-const apiStatusList = {
+const apiStatusListOfFirst = {
   initial: 'INITIAL',
   in_progress: 'IN_PROGRESS',
-  home: 'HOME',
+  success: 'SUCCESS',
   failure: 'FAILURE',
 }
 
@@ -50,34 +49,71 @@ const apiStatusListOfOriginal = {
 
 class Home extends Component {
   state = {
-    isShowMenu: false,
-    apiStatus: apiStatusList.initial,
+    apiStatusOfFirst: apiStatusListOfFirst.initial,
     apiStatusOfTrending: apiStatusListOfTrending.initial,
     apiStatusOfTopRated: apiStatusListOfTopRated.initial,
     apiStatusOfOriginal: apiStatusListOfOriginal.initial,
+    randomObject: {},
     trendingList: [],
     topRatedList: [],
     originalList: [],
-    showInput: false,
-    inputSearch: '',
   }
 
   componentDidMount() {
-    this.getTheOriginalData()
+    this.getTheMovieData()
     this.getTheTrendingData()
     this.getTheTopRatedData()
+    this.getTheOriginalData()
+  }
+
+  getTheMovieData = async () => {
+    this.setState({apiStatusOfFirst: apiStatusListOfFirst.in_progress})
+    const jwtToken = Cookies.get('jwt_token')
+    const originalApiUrl =
+      'https://api.themoviedb.org/3/discover/tv?api_key=639ba2e19fa297642eec1cefb28ef177'
+
+    // ('https://api.themoviedb.org/3/discover/tv?api_key=639ba2e19fa297642eec1cefb28ef177') //
+    // 'https://api.themoviedb.org/3/movie/popular?api_key=639ba2e19fa297642eec1cefb28ef177&language=en-US&' //
+
+    const options = {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${jwtToken}`,
+      },
+    }
+    const response = await fetch(originalApiUrl, options)
+    if (response.ok === true) {
+      const data = await response.json()
+      const arrayLength = data.results.length
+      const randomItem =
+        data.results[Math.floor(Math.random() * (arrayLength - 1))]
+      const updatedData = {
+        id: randomItem.id,
+        title: randomItem.name,
+        backdropPath: randomItem.backdrop_path,
+        overview: randomItem.overview,
+      }
+      this.setState({
+        randomObject: {...updatedData},
+        apiStatusOfFirst: apiStatusListOfFirst.success,
+      })
+    } else {
+      this.setState({apiStatusOfFirst: apiStatusListOfFirst.failure})
+    }
   }
 
   getTheTrendingData = async () => {
     this.setState({apiStatusOfTrending: apiStatusListOfTrending.in_progress})
     const jwtToken = Cookies.get('jwt_token')
-    const trendingUrl =
+    const trendingNowApiUrl =
       'https://api.themoviedb.org/3/trending/all/week?api_key=639ba2e19fa297642eec1cefb28ef177'
     const options = {
       method: 'GET',
-      header: `Bearer ${jwtToken}`,
+      headers: {
+        Authorization: `Bearer ${jwtToken}`,
+      },
     }
-    const response = await fetch(trendingUrl, options)
+    const response = await fetch(trendingNowApiUrl, options)
     if (response.ok === true) {
       const data = await response.json()
       const updatedData = data.results.map(
@@ -93,7 +129,7 @@ class Home extends Component {
           },
       )
       this.setState({
-        apiStatusOfTrending: apiStatusListOfTrending.in_progress,
+        apiStatusOfTrending: apiStatusListOfTrending.success,
         trendingList: [...updatedData],
       })
     } else {
@@ -137,16 +173,15 @@ class Home extends Component {
   getTheOriginalData = async () => {
     this.setState({
       apiStatusOfOriginal: apiStatusListOfOriginal.in_progress,
-      apiStatus: apiStatusList.in_progress,
     })
     const jwtToken = Cookies.get('jwt_token')
-    const originalUrl =
+    const originalApiUrl =
       'https://api.themoviedb.org/3/discover/tv?api_key=639ba2e19fa297642eec1cefb28ef177'
     const options = {
       method: 'GET',
       header: `Bearer ${jwtToken}`,
     }
-    const response = await fetch(originalUrl, options)
+    const response = await fetch(originalApiUrl, options)
     if (response.ok === true) {
       const data = await response.json()
       const updatedData = data.results.map(
@@ -163,28 +198,11 @@ class Home extends Component {
       )
       this.setState({
         apiStatusOfOriginal: apiStatusListOfOriginal.success,
-        apiStatus: apiStatusList.success,
         originalList: [...updatedData],
       })
     } else {
       this.setState({apiStatusOfOriginal: apiStatusListOfOriginal.failure})
     }
-  }
-
-  updateIsShow = () => {
-    this.setState(prevState => ({isShowMenu: !prevState.isShowMenu}))
-  }
-
-  updateSearch = value => {
-    this.setState({inputSearch: value})
-  }
-
-  isShowInput = () => {
-    this.setState(prevState => ({showInput: !prevState.showInput}))
-  }
-
-  changeTheSearchInput = value => {
-    this.setState({inputSearch: value})
   }
 
   renderTheLoader = () => (
@@ -203,7 +221,7 @@ class Home extends Component {
 
   renderTheTrendingSlider = () => {
     const {trendingList} = this.state
-    const settings = {slidesToShow: 4, slidesToScroll: 1}
+    const settings = {slidesToShow: 4, slidesToScroll: 4}
     return (
       <Slider {...settings}>
         {trendingList.map(each => (
@@ -215,7 +233,7 @@ class Home extends Component {
 
   renderTheTopRatedSlider = () => {
     const {topRatedList} = this.state
-    const settings = {slidesToShow: 4, slidesToScroll: 1}
+    const settings = {slidesToShow: 4, slidesToScroll: 4}
     return (
       <Slider {...settings}>
         {topRatedList.map(each => (
@@ -227,7 +245,7 @@ class Home extends Component {
 
   renderTheOriginalSlider = () => {
     const {originalList} = this.state
-    const settings = {slidesToShow: 4, slidesToScroll: 1}
+    const settings = {slidesToShow: 4, slidesToScroll: 4}
     return (
       <Slider {...settings}>
         {originalList.map(each => (
@@ -249,6 +267,10 @@ class Home extends Component {
     </SliderLoaderContainer>
   )
 
+  onClickTrendingTryAgainButton = () => {
+    this.setState({}, this.getTheTrendingData)
+  }
+
   renderTheApiStatusOfTrending = () => {
     const {apiStatusOfTrending} = this.state
     switch (apiStatusOfTrending) {
@@ -257,83 +279,148 @@ class Home extends Component {
       case apiStatusListOfTrending.in_progress:
         return this.renderTheSliderLoading()
       case apiStatusListOfTrending.failure:
-        return this.renderTheSliderFailure()
+        return this.renderTheSliderFailure(this.onClickTrendingTryAgainButton)
 
       default:
         return null
     }
   }
 
-  renderTheHomePage = () => {
-    const {originalList} = this.state
-    console.log(originalList)
-    const arrayLength = originalList.length
-    const randomItem =
-      originalList[Math.floor(Math.random() * (arrayLength - 1))]
-    const {name, backdropPath} = randomItem
+  onClickTopRatedTryAgainButton = () => {
+    this.setState({}, this.getTheTopRatedData)
+  }
 
-    const settings = {slidesToShow: 4, slidesToScroll: 1}
+  renderTheApiStatusOfTopRated = () => {
+    const {apiStatusOfTopRated} = this.state
+    switch (apiStatusOfTopRated) {
+      case apiStatusListOfTopRated.success:
+        return this.renderTheTopRatedSlider()
+      case apiStatusListOfTopRated.in_progress:
+        return this.renderTheSliderLoading()
+      case apiStatusListOfOriginal.failure:
+        return this.renderTheSliderFailure(this.onClickTopRatedTryAgainButton)
+
+      default:
+        return null
+    }
+  }
+
+  renderTheHomeFirstContainer = () => {
+    const {randomObject} = this.state
+    const {title, backdropPath, overview} = randomObject
     return (
-      <div>
-        <HomeFirstContainer path={backdropPath}>
-          <>
-            <div className="details">
-              <h1 className="home-heading">{name}</h1>
-              <p className="home-para">overview</p>
-              <button type="button" className="play-button">
-                Play
-              </button>
-            </div>
+      <HomeFirstContainer path={backdropPath}>
+        <>
+          <div className="details">
+            <h1 className="home-heading">{title}</h1>
+            <h1 className="home-para">{overview}</h1>
+            <button type="button" className="play-button">
+              Play
+            </button>
+          </div>
 
-            <div>
-              <div className="img-bottom-style"> </div>
-            </div>
-          </>
-        </HomeFirstContainer>
-        <div className="trending-top-originals-container">
-          <div className="slider-container">
-            <h1 className="trending-heading">Trending</h1>
-            {this.renderTheApiStatusOfTrending()}
+          <div>
+            <div className="img-bottom-style"> </div>
           </div>
-          <div className="slider-container">
-            <h1 className="trending-heading">Top Rated</h1>
-            {this.renderTheTopRatedSlider()}
-          </div>
-          <div className="slider-container">
-            <h1 className="trending-heading">Originals</h1>
-            {this.renderTheOriginalSlider()}
-          </div>
-        </div>
-        <Footer />
-      </div>
+        </>
+      </HomeFirstContainer>
     )
   }
 
-  renderTheApiStatus = () => {
-    const {apiStatus} = this.state
-    switch (apiStatus) {
-      case apiStatusList.success:
-        return this.renderTheHomePage()
-      case apiStatusList.in_progress:
-        return this.renderTheLoader()
+  renderTheHomeFirstLoading = () => (
+    <SliderLoaderContainer h>
+      <Loader
+        type="TailSpin"
+        color=" #D81F26"
+        height={50}
+        width={50}
+        className="spin"
+      />
+    </SliderLoaderContainer>
+  )
+
+  onClickHomeFirstTryAgainButton = () => {
+    this.setState({}, this.getTheMovieData)
+  }
+
+  renderTheSliderFailure = (func, isLong) => (
+    <FailureContainer>
+      <HomeSliderFailureContainer h={isLong}>
+        <AlertImage
+          src="https://res.cloudinary.com/dxnhvq8pl/image/upload/v1643303783/movie%20app%20mini%20project/alert-triangle_eeuzgc.png"
+          alt="failure view"
+        />
+        <AlertError>Something went wrong. Please try again</AlertError>
+        <RetryButton type="button" onClick={func}>
+          Try Again
+        </RetryButton>
+      </HomeSliderFailureContainer>
+    </FailureContainer>
+  )
+
+  renderTheHomeApiStatus = () => {
+    const {apiStatusOfFirst} = this.state
+    switch (apiStatusOfFirst) {
+      case apiStatusListOfFirst.success:
+        return this.renderTheHomeFirstContainer()
+      case apiStatusListOfFirst.failure:
+        return this.renderTheSliderFailure(
+          this.onClickHomeFirstTryAgainButton,
+          true,
+        )
+      case apiStatusListOfFirst.in_progress:
+        return this.renderTheHomeFirstLoading()
+
       default:
         return null
     }
   }
 
+  onClickOriginalTryAgainButton = () => {
+    this.setState({}, this.getTheOriginalData)
+  }
+
+  renderTheOriginalApiStatus = () => {
+    const {apiStatusOfOriginal} = this.state
+    switch (apiStatusOfOriginal) {
+      case apiStatusListOfOriginal.success:
+        return this.renderTheOriginalSlider()
+      case apiStatusListOfOriginal.failure:
+        return this.renderTheSliderFailure(this.onClickOriginalTryAgainButton)
+      case apiStatusListOfOriginal.in_progress:
+        return this.renderTheSliderLoading()
+
+      default:
+        return null
+    }
+  }
+
+  renderTheHomePage = () => (
+    <div>
+      {this.renderTheHomeApiStatus()}
+      <HomeSecondContainer className="trending-top-originals-container">
+        <div className="slider-container">
+          <h1 className="trending-heading">Trending Now</h1>
+          {this.renderTheApiStatusOfTrending()}
+        </div>
+        <div className="slider-container">
+          <h1 className="trending-heading">Top Rated</h1>
+          {this.renderTheApiStatusOfTopRated()}
+        </div>
+        <div className="slider-container">
+          <h1 className="trending-heading">Originals</h1>
+          {this.renderTheOriginalApiStatus()}
+        </div>
+      </HomeSecondContainer>
+      <Footer />
+    </div>
+  )
+
   render() {
-    const {showInput, isShowMenu, inputSearch} = this.state
     return (
       <>
-        <Navbar
-          updateIsShow={this.updateIsShow}
-          isShowMenu={isShowMenu}
-          isShowInput={this.isShowInput}
-          showInput={showInput}
-          inputSearch={inputSearch}
-          changeTheSearchInput={this.changeTheSearchInput}
-        />
-        <div className="home-bg-container">{this.renderTheApiStatus()}</div>
+        <Header />
+        <div className="home-bg-container">{this.renderTheHomePage()}</div>
       </>
     )
   }

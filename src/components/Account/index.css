@@ -2,7 +2,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 }
 
@@ -66,9 +66,13 @@
   padding-right: 32px;
   background-color: #ffffff;
   flex-grow: 1;
-  min-height: 89vh;
+  min-height: 100vh;
   background-size: cover;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .a-c {

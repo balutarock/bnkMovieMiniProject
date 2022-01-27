@@ -7,15 +7,15 @@ class Login extends Component {
   state = {username: '', password: '', errorMsg: ''}
 
   loginSuccess = requestToken => {
-    Cookies.set('jwt_token', requestToken, {expires: 30, path: '/'})
+    Cookies.set('jwt_token', requestToken, {expires: 30})
     const {history} = this.props
-    history.push('/')
+    history.replace('/')
   }
 
   loginFailed = loginData => {
     this.setState({errorMsg: loginData.status_message})
     const {history} = this.props
-    history.push('/login')
+    history.replace('/login')
   }
 
   onSubmitForm = async event => {
@@ -27,7 +27,7 @@ class Login extends Component {
     const data = await response.json()
     const requestToken = data.request_token
 
-    const loginUrl =
+    const loginApiUrl =
       'https://api.themoviedb.org/3/authentication/token/validate_with_login?api_key=639ba2e19fa297642eec1cefb28ef177'
     const userDetails = {
       username,
@@ -42,7 +42,7 @@ class Login extends Component {
       },
     }
 
-    const loginResponse = await fetch(loginUrl, options)
+    const loginResponse = await fetch(loginApiUrl, options)
     const loginData = await loginResponse.json()
     if (loginResponse.ok === true) {
       this.loginSuccess(loginData.request_token)
@@ -70,7 +70,7 @@ class Login extends Component {
         <div className="logo-heading-container">
           <img
             src="https://res.cloudinary.com/dxnhvq8pl/image/upload/v1627541130/movie%20app%20mini%20project/Group_7399_xsp0dx.png"
-            alt="movie-logo"
+            alt="login website logo"
             className="movie-logo-css"
           />
         </div>
@@ -108,7 +108,7 @@ class Login extends Component {
             )}
             <div className="button-container">
               <button className="sign-in-button" type="submit">
-                Sign in
+                Login
               </button>
             </div>
           </form>
