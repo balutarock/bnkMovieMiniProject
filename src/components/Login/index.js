@@ -69,8 +69,8 @@ class Login extends Component {
       <div className="log-in-bg-container">
         <div className="logo-heading-container">
           <img
-            src="https://res.cloudinary.com/dxnhvq8pl/image/upload/v1627541130/movie%20app%20mini%20project/Group_7399_xsp0dx.png"
-            alt="login website logo"
+            src="https://res.cloudinary.com/dxnhvq8pl/image/upload/v1628099153/movie%20app%20mini%20project/580b57fcd9996e24bc43c529_d5ju8c.png"
+            alt="website logo"
             className="movie-logo-css"
           />
         </div>

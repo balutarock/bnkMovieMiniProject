@@ -122,25 +122,27 @@ class Popular extends Component {
             </Link>
           ))}
         </ul>
-        <div className="page-function">
-          <button
-            type="button"
-            className="left-button"
-            onClick={this.onClickLeftArrow}
-          >
-            <MdKeyboardArrowLeft className="left-icons" />
-          </button>
-          <p className="page-para">
-            {pageNo} of {popularList[0].totalPages}
-          </p>
-          <button
-            type="button"
-            className="right-button"
-            onClick={this.onClickRightArrow}
-          >
-            <MdKeyboardArrowRight className="left-icons" />
-          </button>
-        </div>
+        {popularList.length !== 0 && (
+          <div className="page-function">
+            <button
+              type="button"
+              className="left-button"
+              onClick={this.onClickLeftArrow}
+            >
+              <MdKeyboardArrowLeft className="left-icons" />
+            </button>
+            <p className="page-para">
+              {pageNo} of {popularList[0].totalPages}
+            </p>
+            <button
+              type="button"
+              className="right-button"
+              onClick={this.onClickRightArrow}
+            >
+              <MdKeyboardArrowRight className="left-icons" />
+            </button>
+          </div>
+        )}
         <Footer />
       </>
     )

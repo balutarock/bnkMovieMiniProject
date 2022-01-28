@@ -41,9 +41,6 @@ class Header extends Component {
                     <p className={`nav-home ${activePopular}`}>Popular</p>
                   </Link>
                 </div>
-                <ul>
-                  <li> </li>
-                </ul>
                 <div className="search-menu-c">
                   <Link to="/search">
                     <button
